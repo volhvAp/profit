@@ -3,10 +3,12 @@
 namespace app\models;
 
 use yii\base\Model;
+use yii\web\UploadedFile;
 
 class UploadForm extends Model
 {
     public $htmlFile;
+    private string $content = '';
 
     public function rules()
     {
@@ -17,11 +19,17 @@ class UploadForm extends Model
 
     public function upload()
     {
+        $this->htmlFile = UploadedFile::getInstance($this, 'htmlFile');
         if ($this->validate()) {
-            $this->htmlFile->saveAs(__DIR__ . '/../uploads/' . $this->htmlFile->baseName . '.' . $this->htmlFile->extension);
+            $this->content = file_get_contents($this->htmlFile->tempName);
             return true;
         } else {
             return false;
         }
+    }
+
+    public function getContent(): string
+    {
+        return $this->content;
     }
 }

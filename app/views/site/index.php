@@ -26,5 +26,12 @@ use yii\bootstrap5\ActiveForm;
 
     <hr>
 
+    <?php
+    if (!empty($error)) {
+        echo "<p>{$error}</p>";
+    } else {
+
+    }
+    ?>
 
 </div>

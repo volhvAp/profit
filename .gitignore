@@ -28,4 +28,3 @@ phpunit.phar
 
 /docker/php/tmp
 /sample
-/uploads
