@@ -1,0 +1,39 @@
+networks:
+    profit-network:
+        driver: bridge
+
+services:
+    php:
+        container_name: profit-php
+        image: php:8.2-fpm
+        networks:
+            - profit-network
+        build: docker/php
+        volumes:
+            - ./app:/app
+            - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+            - ./docker/php/tmp:/tmp
+        env_file:
+            - .env
+        working_dir: /app
+        ports:
+            - "$PHP_PORT:9000"
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+
+    nginx:
+        container_name: profit-nginx
+        build: docker/nginx
+        networks:
+            - profit-network
+        volumes:
+            - ./app:/app
+            - ./app/runtime:/app/runtime
+        env_file:
+            - .env
+        ports:
+            - "$NGINX_PORT:80"
+        environment:
+            - HOST=$HOST
+        depends_on:
+            - php

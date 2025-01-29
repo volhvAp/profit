@@ -1,0 +1,10 @@
+.container {
+    padding: 70px 15px 20px;
+}
+
+.title {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.75);
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+}

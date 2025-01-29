@@ -1,0 +1,18 @@
+message2user|O:14:"TMessageToUser":2:{s:15:"content_message";a:0:{}s:2:"id";i:1;}Filter_query|s:1465:"
+      SELECT DISTINCT O.OId, OVzaimRequest, CONCAT(O.OId, '-', OT.OTPostfix) as passport_num, O.OSId, O.FSId, OTName, 
+             O.OCancelRequest, O.OCancelAnswer, OName, DATE_FORMAT(ODateTime, '%d.%m.%Y') AS ODate, UName, CuShortName, OS.OSName, OFullSum, ODocumentSign, OAccountRequest, OAccount1CNum, OAccountCancelRequest, OAccount1CAnswer, ONaklRequest, ONakl1CAnswer, ONaklCancelRequest, OCopyingForbidden,
+             tbl_prod.uncheck_count, IF(LOCATE(' ',OAccountNum)=0,OAccountNum,SUBSTRING(OAccountNum,1,LOCATE(' ',OAccountNum))) as OAccountNum, ONakl1CNum,
+             ITSC.OId as index_curr, Cu.CuNotApplySumLimit, COUNT(PA.PId) as sign
+      FROM orders_c O
+      LEFT JOIN users U ON O.UId = U.UId
+      LEFT JOIN customers Cu ON O.CuId = Cu.CuId
+      LEFT JOIN customer_groups CuG ON Cu.CuGId = CuG.CuGId
+      LEFT JOIN order_statuses OS ON O.OSId = OS.OSId
+      LEFT JOIN order_types OT ON O.OTId = OT.OTId
+      LEFT JOIN index_tech_stages_curr ITSC ON O.OId = ITSC.OId AND ITSC.UId = '126'        
+      LEFT JOIN (SELECT OId, COUNT(*) as uncheck_count FROM ord_products_in_orders_c PO WHERE PrOAgentCommission > 0 AND PrOAgentAccepted = '0' GROUP BY OId) tbl_prod
+      ON tbl_prod.OId=O.OId
+      LEFT JOIN payment_values PV ON O.OId=PV.OId 
+	  LEFT JOIN payment PA ON PV.PId=PA.PId AND PA.PTypeId = 11 AND PA.IsLock=1
+      
+    WHERE 1  AND ODateTime > '2014-12-31' GROUP BY O.OId  ORDER BY index_curr DESC, OId DESC ";user_inform|a:5:{s:3:"UId";s:3:"126";s:5:"UName";s:29:"Простокишин А.Л.";s:4:"UGId";s:1:"1";s:13:"AllUserGroups";a:2:{i:0;s:1:"1";i:1;s:2:"41";}s:6:"UGName";s:37:"Супер-администратор";}

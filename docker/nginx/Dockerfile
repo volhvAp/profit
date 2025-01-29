@@ -1,0 +1,9 @@
+FROM nginx:stable-alpine
+
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY fastcgi.conf /etc/nginx/fastcgi.conf
+COPY vhost.conf /etc/nginx/conf.d/default.conf
+
+WORKDIR /etc/nginx
+
+CMD ["nginx"]
