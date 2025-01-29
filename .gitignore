@@ -26,5 +26,6 @@ phpunit.phar
 # local phpunit config
 /phpunit.xml
 
+/docker/php/tmp
 /sample
 /uploads
