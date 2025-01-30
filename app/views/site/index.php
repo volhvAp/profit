@@ -30,7 +30,7 @@ use miloschuman\highcharts\Highcharts;
     <?php
     if (!empty($error)) {
         echo "<p>{$error}</p>";
-    } else {
+    } elseif (count($data) > 0) {
         echo Highcharts::widget([
             'options' => [
                 'title' => ['text' => 'Баланс по операциям'],
