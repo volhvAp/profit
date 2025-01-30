@@ -3,6 +3,7 @@
 /** @var yii\web\View $this */
 
 use yii\bootstrap5\ActiveForm;
+use miloschuman\highcharts\Highcharts;
 
 ?>
 <div>
@@ -30,7 +31,18 @@ use yii\bootstrap5\ActiveForm;
     if (!empty($error)) {
         echo "<p>{$error}</p>";
     } else {
-
+        echo Highcharts::widget([
+            'options' => [
+                'title' => ['text' => 'Баланс по операциям'],
+                'xAxis' => [
+                    'categories' => array_keys($data),
+                ],
+                'yAxis' => [
+                    'title' => ['text' => 'Сумма, руб']
+                ],
+                'series' => [['name' => 'Баланс', 'data' => array_values($data)]],
+            ],
+        ]);
     }
     ?>
 

@@ -19,23 +19,28 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $this->model = new UploadForm();
+        $data = [];
         if (\Yii::$app->request->isPost) {
-            $this->process();
+            $data = $this->process();
         }
         return $this->render('index', [
             'model' => $this->model,
             'error' => $this->error,
+            'data' => $data,
         ]);
     }
 
-    private function process(): void
+    private function process(): array
     {
         if (!$this->model->upload()) {
             $this->error = 'Файлик не загружен. График не может быть построен';
+            return [];
         }
-        $data = Parser::parseHtml($this->model->getContent());
+        $data = Parser::parseProfitHtml($this->model->getContent());
         if (count($data) === 0) {
             $this->error = 'Данные в контенте не обнаружены. График не может быть построен';
+            return [];
         }
+        return $data;
     }
 }

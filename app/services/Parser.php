@@ -6,11 +6,12 @@ use app\models\Profit;
 
 class Parser
 {
-    public static function parseHtml(string $content): array
+    public static function parseProfitHtml(string $content): array
     {
         $ret = [];
         $dom = \phpQuery::newDocument($content);
         $profitObj = new Profit();
+        $profit = 0;
         foreach ($dom->find("tr") as $tr) {
             $tdItems = pq($tr)->find("td")->elements;
             $ticketItem = $tdItems[0];
@@ -18,7 +19,8 @@ class Parser
             if (!$profitObj->setData($ticketItem->textContent, $profitItem->textContent)) {
                 continue;
             }
-            $ret[$profitObj->ticketId] = $profitObj->profit;
+            $profit += $profitObj->profit;
+            $ret[$profitObj->ticketId] = $profit;
         }
         return $ret;
     }
