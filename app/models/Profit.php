@@ -21,12 +21,12 @@ class Profit extends Model
     public function setData(string $ticketId, string $profit): bool
     {
         $this->ticketId = $ticketId;
-        $this->profit = $profit;
+        $this->profit = str_replace(' ', '', $profit);
         if (!$this->validate()) {
             return false;
         }
-        $this->ticketId = (int)$ticketId;
-        $this->profit = (float)$profit;
+        $this->ticketId = (int)$this->ticketId;
+        $this->profit = (float)$this->profit;
         return true;
     }
 }
